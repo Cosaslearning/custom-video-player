@@ -1,0 +1,282 @@
+/*-----------------  BASE  -----------------*/
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+/*-----------------  VARIABLES  -----------------*/
+  :root {
+    /* Colors */ 
+    --white_color : rgb(255, 255, 255);
+    --orange_color : rgb(246, 99, 53);
+    --black_color : rgb(0, 0, 0);
+    --background_color : rgb(27, 31, 41);
+    --grey-color : rgb(128, 128, 128);
+  }
+/*-----------------  STYLING  -----------------*/
+  body {
+    min-height: 100vh;
+    background: var(--background_color);
+  }
+  body, .container, .video-controls, .video-timer, .options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .container {
+    width: 98%;
+    user-select: none;
+    overflow: hidden;
+    max-width: 56.25em;
+    border-radius: 0.3125em;
+    background: var(--black_color);
+    aspect-ratio: 16 / 9;
+    position: relative;
+    box-shadow: 0 0.625em 1.25em rgba(0, 0, 0, 0.1);
+  }
+  .container.fullscreen {
+    max-width: 100%;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0em;
+  }
+  .wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    opacity: 0;
+    bottom: -0.9375;
+    transition: all 0.08s ease;
+  }
+  .container.show-controls .wrapper {
+    opacity: 1;
+    bottom: 0;
+    transition: all 0.13s ease;
+  }
+  .wrapper::before {
+    content: "";
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: calc(100% + 2.1875em);
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  }
+  .video-timeline {
+    height: 0.4375em;
+    width: 100%;
+    cursor: pointer;
+    padding: 0 1em;
+  }
+  .video-timeline .progress-area {
+    height: 0.1875em;
+    position: relative;
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .progress-area span {
+    position: absolute;
+    left: 50%;
+    top: -1.5625em;
+    font-size: 0.8125em;
+    color: var(--white_color);
+    pointer-events: none;
+    transform: translateX(-50%);
+  }
+  .progress-area .progress-bar {
+    width: 0%;
+    height: 100%;
+    position: relative;
+    background:var(--orange_color);
+  }
+  .progress-bar::before {
+    content: "";
+    right: 0;
+    top: 50%;
+    height: 0.8125em;
+    width: 0.8125em;
+    position: absolute;
+    border-radius: 50%;
+    background: var(--orange_color);
+    transform: translateY(-50%);
+  }
+  .progress-bar::before, .progress-area span {
+    display: none;
+  }
+  .video-timeline:hover .progress-bar::before,
+  .video-timeline:hover .progress-area span {
+    display: block;
+  }
+  .wrapper .video-controls {
+    padding: 0.3125em 1.25em 0.625em;
+  }
+  .video-controls .options {
+    width: 100%;
+  }
+  .video-controls .options:first-child {
+    justify-content: flex-start;
+  }
+  .video-controls .options:last-child {
+    justify-content: flex-end;
+  }
+  .options button {
+    height: 2.5em;
+    width: 2.5em;
+    font-size: 1.1875em;
+    border: none;
+    cursor: pointer;
+    background: none;
+    color: var(--white_color);
+    border-radius: 0.1875em;
+    transition: all 0.3s ease;
+  }
+  .options button span {
+    height: 100%;
+    width: 100%;
+    line-height: 1.7em;
+    font-size: 1.5625em;
+  }
+  .options button:hover span {
+    color: var(--orange_color);
+  }
+  .options button:active span {
+    transform: scale(0.9);
+  }
+  .options #volume_range {
+    height: 0.3em;
+    max-width: 5em;
+    accent-color: var(--orange_color);
+    display: none;
+    cursor: pointer;
+    transition: all 0.9s ease;
+  }
+  .options .video-timer {
+    color: var(--white_color);
+    margin-left: 0.9375em;
+    font-size: 0.875em;
+  }
+  .video-timer .separator {
+    margin: 0 0.3125em;
+    font-size: 1em;
+    font-family: "Open sans";
+  }
+  .playback-content {
+    display: flex;
+    position: relative;
+  }
+  .playback-content .speed-options {
+    position: absolute;
+    list-style: none;
+    left: -2.5em;
+    bottom: 2.5em;
+    width: 5.9375em;
+    overflow: hidden;
+    opacity: 0;
+    border-radius: 0.25em;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0.625em 1.25em rgba(0, 0, 0, 0.1);
+    transition: opacity 0.13s ease;
+  }
+  .playback-content .speed-options.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .speed-options li { 
+    cursor: pointer;
+    color: var(--black_color);
+    font-size: 0.875em;
+    margin: 0.125em 0;
+    padding: 0.3125em 0 0.3125em 0.9375em;
+    transition: all 0.1s ease;
+  }
+  .speed-options li:where(:first-child, :last-child) {
+    margin: 0em;
+  }
+  .speed-options li:hover {
+    background: var(--grey-color);
+  }
+  .speed-options li.active {
+    color: var(--white_color);
+    background: var(--orange_color);
+  }
+  .container video {
+    width: 100%;
+  }
+  label {
+    cursor: pointer;
+  }
+  .tooltip {
+    position: relative;
+  }
+  .tooltip:hover::before {
+    content: attr(title);
+    white-space:nowrap;
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3125em;
+    border-radius: 0.3125em;
+    background-color: #333;
+    font-weight: 700;
+    color: var(--white_color);
+    font-size: 0.875em;
+  }
+  .options:first-child .tooltip:first-child::before {
+    margin-left: 2em;
+  }
+  .tooltiplast:hover::before {
+    left: 22%;
+  }
+  .tooltip:nth-child(5)::before {
+    font-size: 1.1875em;
+    margin-bottom: 2.8em;
+  }
+  
+  @media screen and (max-width: 540px) {
+    .wrapper .video-controls{
+      padding: 0.1875em 0.625em 0.4375em;
+    }
+    .options input, .progress-area span {
+      display: none!important;
+    }
+    .options button {
+      height: 1.875em;
+      width: 1.875em;
+      font-size: 1.0625em;
+    }
+    .options .video-timer {
+      margin-left: 0.3125em;
+    }
+    .video-timer .separator {
+      font-size: 0.875em;
+      margin: 0 0.125em;
+    }
+    .options button span {
+      line-height: 1.875em;
+    }
+    .options button span {
+      font-size: 1.3125em;
+    }
+    .options .video-timer, .progress-area span, .speed-options li {
+      font-size: 0.75em;
+    }
+    .playback-content .speed-options {
+      width: 4.6875em;
+      left: -1.875em;
+      bottom: 1.875em;
+    }
+    .speed-options li {
+      margin: 0.0625em 0;
+      padding: 0.1875em 0 0.1875em 0.625em;
+    }
+    .right .pic-in-pic {
+      display: none;
+    }
+  }
+
+
+
+

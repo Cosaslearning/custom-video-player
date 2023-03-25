@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Video Player | Cosas Learning</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">   
+</head>
+<body>
+    <div class="container show-controls">
+        <div class="wrapper">
+            <div class="video-timeline">
+                <div class="progress-area">
+                    <span>00:00</span>
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <ul class="video-controls">
+                <li class="options left">
+                    <button title="Backward 10s" class="skip-backward tooltip"><span class="material-icons">rotate_left</span></button>
+                    <button title="Play" class="play-pause tooltip"><span class="material-icons">play_arrow</span></button>
+                    <button title="Forward 10s" class="skip-forward tooltip"><span class="material-icons">rotate_right</span></button>
+                    <button title="Mute" class="volume tooltip"><span class="material-icons">volume_up</span></button>
+                    <input title="Volume" class="tooltip" id="volume_range" type="range" min="0" max="1" step="any">
+                    <div class="video-timer">
+                        <p class="current-time">00:00</p>
+                        <p class="separator"> / </p>
+                        <p class="video-duration">00:00</p>
+                    </div>
+                </li>
+                <li class="options right">
+                    <div class="playback-content">
+                        <button title="Speed" class="playback-speed tooltip"><span class="material-symbols-rounded">slow_motion_video</span></button>
+                        <ul class="speed-options">
+                            <li data-speed="0.5">0.5x</li>
+                            <li data-speed="0.75">0.75x</li>
+                            <li data-speed="1" class="active">Normal</li>
+                            <li data-speed="1.5">1.5x</li>
+                            <li data-speed="2">2x</li>
+                        </ul>
+                    </div>
+                    <button title="Miniplayer" class="pic-in-pic tooltip"><span class="material-icons">picture_in_picture_alt</span></button>
+                    <button title="Full screen" class="fullscreen tooltip"><span class="material-icons">fullscreen</span></button>
+                    <button title="New File" class="new-file tooltip tooltiplast"><label for="fileInput"><span class="material-icons">video_file</span></label></button>
+                    <input type="file" id="fileInput" name="fileInput" accept="video/mp4,video/x-m4v,video/*" hidden>
+                </li>
+            </ul>
+        </div>
+        <video id="myVideo" src="path/to/video.mp4"></video>
+    </div>
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>   
+</html>
